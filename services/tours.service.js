@@ -5,7 +5,9 @@ exports.createATourService = async (data) => {
   return result;
 };
 exports.getToursService = async (queries) => {
-  const result = await Tours.find({}).select(queries.field);
+  const result = await Tours.find({})
+    .select(queries.field)
+    .sort(queries.sortBy);
   return result;
 };
 exports.getAToursService = async (id) => {

@@ -28,6 +28,12 @@ exports.getTours = async (req, res, next) => {
 
     //get all queries
     const queries = {};
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(",").join(" ");
+      queries.sortBy = sortBy;
+    }
+
+    // get specific data with filtering
     if (req.query.fields) {
       const field = req.query.fields.split(",").join(" ");
       queries.field = field;
