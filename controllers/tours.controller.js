@@ -26,6 +26,9 @@ exports.getTours = async (req, res, next) => {
   try {
     let filters = { ...req.query };
 
+    const excludeFields = ["limit", "sort", "page"];
+    excludeFields.forEach((field) => delete filters[field]);
+
     //get all queries
     const queries = {};
     if (req.query.sort) {
@@ -39,7 +42,15 @@ exports.getTours = async (req, res, next) => {
       queries.field = field;
     }
 
-    const result = await getToursService(queries);
+    // pagination
+    if (req.query.page) {
+      const { page = 1, limit = 5 } = req.query;
+      const skip = (page - 1) * parseInt(limit);
+      queries.skip = skip;
+      queries.limit = parseInt(limit);
+    }
+
+    const result = await getToursService(filters, queries);
     res.status(200).json({
       status: "success",
       message: "successfully get the tours.",

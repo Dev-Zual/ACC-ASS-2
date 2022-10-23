@@ -4,11 +4,15 @@ exports.createATourService = async (data) => {
   const result = await Tours.create(data);
   return result;
 };
-exports.getToursService = async (queries) => {
+exports.getToursService = async (filters, queries) => {
   const result = await Tours.find({})
+    .skip(queries.skip)
+    .limit(queries.limit)
     .select(queries.field)
     .sort(queries.sortBy);
-  return result;
+  const total = await Tours.countDocuments(filters);
+  const page = Math.ceil(total / queries.limit);
+  return { total, page, result };
 };
 exports.getAToursService = async (id) => {
   const result = await Tours.findOne({ _id: id });
