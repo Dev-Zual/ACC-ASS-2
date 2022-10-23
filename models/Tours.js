@@ -19,6 +19,9 @@ const tourSchema = mongoose.Schema(
       required: [true, "Please provide a price for this tour!"],
       min: [0, "price can't be negative!"],
     },
+    viewCount: {
+      type: Number,
+    },
   },
   {
     timestamps: true,
