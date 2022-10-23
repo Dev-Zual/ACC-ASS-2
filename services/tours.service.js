@@ -4,8 +4,8 @@ exports.createATourService = async (data) => {
   const result = await Tours.create(data);
   return result;
 };
-exports.getToursService = async () => {
-  const result = await Tours.find({});
+exports.getToursService = async (queries) => {
+  const result = await Tours.find({}).select(queries.field);
   return result;
 };
 exports.getAToursService = async (id) => {

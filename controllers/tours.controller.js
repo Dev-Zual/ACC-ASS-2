@@ -24,7 +24,16 @@ exports.createATour = async (req, res, next) => {
 };
 exports.getTours = async (req, res, next) => {
   try {
-    const result = await getToursService();
+    let filters = { ...req.query };
+
+    //get all queries
+    const queries = {};
+    if (req.query.fields) {
+      const field = req.query.fields.split(",").join(" ");
+      queries.field = field;
+    }
+
+    const result = await getToursService(queries);
     res.status(200).json({
       status: "success",
       message: "successfully get the tours.",
